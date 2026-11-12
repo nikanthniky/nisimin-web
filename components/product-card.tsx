@@ -3,10 +3,13 @@ import Link from "next/link";
 import { products } from "@/lib/site";
 export function ProductCard({
   product,
+  headingLevel = "h3",
 }: {
   product: (typeof products)[number];
+  headingLevel?: "h2" | "h3";
 }) {
   const play = product.slug === "playtown";
+  const Heading = headingLevel;
   return (
     <Link
       href={`/products/${product.slug}`}
@@ -56,7 +59,7 @@ export function ProductCard({
             {product.status}
           </span>
         </div>
-        <h3>{product.description}</h3>
+        <Heading className="product-heading">{product.description}</Heading>
         <p>{product.detail}</p>
         <span className="text-link">
           Discover {product.name}

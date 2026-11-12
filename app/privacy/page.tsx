@@ -5,6 +5,7 @@ export const generateMetadata = () =>
     "Privacy notice — Draft",
     "NISIMIN’s draft corporate website privacy notice. Pending founder and legal review.",
     "/privacy/",
+    { index: false },
   );
 export default function Privacy() {
   return <LegalPage kind="privacy" />;

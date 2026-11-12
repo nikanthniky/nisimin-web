@@ -3,20 +3,31 @@ export const site = {
   name: "NISIMIN",
   url: "https://nisimin.com",
   email: "hello@nisimin.com",
+  title: "NISIMIN | Technology for Sports and Education",
+  description:
+    "NISIMIN builds technology products for sports communities and education, including PlayTown and EduNisi.",
 };
+export function absoluteUrl(path: string): string {
+  return new URL(path, `${site.url}/`).href;
+}
 export function metadata(
   title: string,
   description: string,
   path: string,
+  { absoluteTitle = false, index = true } = {},
 ): Metadata {
+  const socialTitle = absoluteTitle ? title : `${title} | ${site.name}`;
   return {
-    title,
+    title: absoluteTitle ? { absolute: title } : title,
     description,
-    alternates: { canonical: path },
+    alternates: { canonical: absoluteUrl(path) },
+    robots: { index, follow: true },
     openGraph: {
-      title: `${title} | NISIMIN`,
+      title: socialTitle,
       description,
-      url: path,
+      url: absoluteUrl(path),
+      siteName: site.name,
+      locale: "en_US",
       type: "website",
       images: [
         {
@@ -29,7 +40,7 @@ export function metadata(
     },
     twitter: {
       card: "summary_large_image",
-      title: `${title} | NISIMIN`,
+      title: socialTitle,
       description,
       images: ["/brand/social.png"],
     },

@@ -25,7 +25,11 @@ export default function Products() {
       <section className="section products-section">
         <div className="container product-grid">
           {products.map((product) => (
-            <ProductCard key={product.slug} product={product} />
+            <ProductCard
+              key={product.slug}
+              product={product}
+              headingLevel="h2"
+            />
           ))}
         </div>
       </section>

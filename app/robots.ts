@@ -1,9 +1,10 @@
 import type { MetadataRoute } from "next";
+import { site, absoluteUrl } from "@/lib/site";
 export const dynamic = "force-static";
 export default function robots(): MetadataRoute.Robots {
   return {
     rules: { userAgent: "*", allow: "/" },
-    sitemap: "https://nisimin.com/sitemap.xml",
-    host: "https://nisimin.com",
+    sitemap: absoluteUrl("/sitemap.xml"),
+    host: site.url,
   };
 }

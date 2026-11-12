@@ -1,6 +1,6 @@
 import { Mark } from "./logo";
 
-export function HeroArt() {
+export function HeroArt({ priority = false }: { priority?: boolean }) {
   return (
     <div
       className="hero-art"
@@ -8,7 +8,7 @@ export function HeroArt() {
       aria-label="The NISIMIN mark: blue for people, yellow for learning, green for growth, and red for action, connected around an open center."
     >
       <div className="hero-grid" />
-      <Mark className="hero-brand-mark" />
+      <Mark className="hero-brand-mark" priority={priority} />
       <div className="art-coordinate coord-top">
         PEOPLE. LEARNING. GROWTH. ACTION.
       </div>

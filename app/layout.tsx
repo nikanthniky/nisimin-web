@@ -3,15 +3,17 @@ import Script from "next/script";
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
 import { AnalyticsEvents } from "@/components/analytics";
+import { JsonLd } from "@/components/json-ld";
+import { site, absoluteUrl } from "@/lib/site";
 import "./globals.css";
 export const metadata: Metadata = {
-  metadataBase: new URL("https://nisimin.com"),
+  metadataBase: new URL(site.url),
   title: {
-    default: "NISIMIN — Technology that moves people forward.",
+    default: site.title,
     template: "%s | NISIMIN",
   },
-  description:
-    "NISIMIN creates digital products that help people connect, learn, organize, and grow.",
+  description: site.description,
+  robots: { index: true, follow: true },
   icons: { icon: "/icon.svg", apple: "/apple-touch-icon.png" },
 };
 export default function RootLayout({
@@ -27,18 +29,29 @@ export default function RootLayout({
         <Navigation />
         <main id="main">{children}</main>
         <Footer />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "Organization",
-              name: "NISIMIN",
-              url: "https://nisimin.com",
-              logo: "https://nisimin.com/brand/nisimin-logo.svg",
-              email: "hello@nisimin.com",
-              description: "An emerging independent technology product brand.",
-            }),
+        <JsonLd
+          data={{
+            "@context": "https://schema.org",
+            "@graph": [
+              {
+                "@type": "Organization",
+                "@id": absoluteUrl("/#organization"),
+                name: site.name,
+                url: absoluteUrl("/"),
+                logo: absoluteUrl("/brand/nisimin-logo.svg"),
+                email: site.email,
+                description: site.description,
+              },
+              {
+                "@type": "WebSite",
+                "@id": absoluteUrl("/#website"),
+                name: site.name,
+                url: absoluteUrl("/"),
+                description: site.description,
+                inLanguage: "en",
+                publisher: { "@id": absoluteUrl("/#organization") },
+              },
+            ],
           }}
         />
         {token && /^[a-f0-9]{32}$/i.test(token) && (

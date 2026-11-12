@@ -1,4 +1,5 @@
 import type { MetadataRoute } from "next";
+import { absoluteUrl } from "@/lib/site";
 export const dynamic = "force-static";
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
@@ -8,11 +9,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "products/edunisi",
     "about",
     "contact",
-    "privacy",
-    "terms",
+    // Draft legal pages are noindex until reviewed and finalized.
   ].map((path) => ({
-    url: `https://nisimin.com/${path}${path ? "/" : ""}`,
-    changeFrequency: "monthly",
-    priority: path === "" ? 1 : path === "products" ? 0.9 : 0.7,
+    url: absoluteUrl(`/${path}${path ? "/" : ""}`),
   }));
 }

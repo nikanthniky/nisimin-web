@@ -54,6 +54,25 @@ Alternatively, after approval, upload `out/` through Cloudflare Pages Direct Upl
 
 **Preserve all existing MX, SPF/TXT, DKIM, DMARC, and mail verification records. Do not modify Resend’s verified `mail.nisimin.com` records.** Domain connection must not replace the zone or bulk overwrite records. No repository script modifies DNS.
 
+## SEO: redirect www to the canonical apex
+
+On 12 November 2026, `curl -sSIL https://www.nisimin.com/products/playtown/` returned HTTP 200 without a redirect. The apex homepage also returned HTTP 200. The response check confirms current public behavior; it does not inspect account-level rules. All generated canonical, Open Graph, sitemap, and structured-data URLs use `https://nisimin.com`.
+
+Configure this in Cloudflare rather than `next.config.ts`, since the deployment is a static export:
+
+1. Select the `nisimin.com` zone, then **Rules → Redirect Rules → Create rule → Single Redirect**.
+2. Name the rule `WWW to canonical NISIMIN`.
+3. Select **Custom filter expression** and enter `(http.host eq "www.nisimin.com")`.
+4. Under the URL redirect action, select **Dynamic** and enter `concat("https://nisimin.com", http.request.uri.path)`.
+5. Select status **301** and enable **Preserve query string**.
+6. Review rule ordering so another matching rule does not override this redirect, then deploy the rule.
+
+This matches only the www hostname, keeps the path and query string, and sends both HTTP and HTTPS www requests to HTTPS on the apex. Single Redirects require the incoming hostname to be proxied through Cloudflare; check its current state without changing DNS records. The tested www response already comes through Cloudflare. Do not change DNS or mail configuration as part of this SEO task.
+
+Verify `/`, `/products/playtown/`, and `/products/edunisi/?source=redirect-check` on www. Each should return a 301 `Location` pointing to the same path/query on `https://nisimin.com`, followed by a 200 response. Check the apex directly for redirect loops, and confirm unknown paths still return 404 after following the redirect. Verify HTTP apex requests also end at HTTPS; if needed, enable the existing zone's HTTPS redirect setting separately after reviewing its scope.
+
+See Cloudflare's [Single Redirect settings](https://developers.cloudflare.com/rules/url-forwarding/single-redirects/settings/) and [www-to-root example](https://developers.cloudflare.com/rules/url-forwarding/examples/redirect-www-to-root/). These are operator instructions; no Cloudflare configuration was changed by this implementation.
+
 ## Optional analytics
 
 No token was supplied. Analytics remains off by default. To enable it, add `NEXT_PUBLIC_CLOUDFLARE_ANALYTICS_TOKEN` with the 32-character token from Cloudflare Web Analytics and rebuild. Do not also enable automatic beacon injection for the same site. The public token identifies the analytics property; it is not a secret credential.

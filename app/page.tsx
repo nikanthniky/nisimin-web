@@ -1,16 +1,12 @@
 import { ArrowDown } from "lucide-react";
-import { metadata } from "@/lib/site";
+import { metadata, site } from "@/lib/site";
 import { products } from "@/lib/site";
 import { HeroArt } from "@/components/hero-art";
 import { ProductCard } from "@/components/product-card";
 import { Button, Eyebrow, TextLink, ContactStrip } from "@/components/ui";
 import { Reveal } from "@/components/reveal";
 export const generateMetadata = () =>
-  metadata(
-    "Technology that moves people forward.",
-    "NISIMIN creates digital products that help people connect, learn, organize, and grow. Meet PlayTown and EduNisi.",
-    "/",
-  );
+  metadata(site.title, site.description, "/", { absoluteTitle: true });
 const steps = [
   [
     "Understand people.",
@@ -46,7 +42,7 @@ export default function Home() {
               <TextLink href="/about">Discover NISIMIN</TextLink>
             </div>
           </div>
-          <HeroArt />
+          <HeroArt priority />
         </div>
         <div className="hero-footnote">
           <span>

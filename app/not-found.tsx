@@ -1,4 +1,13 @@
 import { Button } from "@/components/ui";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Page not found",
+  description:
+    "This page could not be found. Explore NISIMIN and its products.",
+  robots: { index: false, follow: true },
+};
+
 export default function NotFound() {
   return (
     <section className="not-found container">

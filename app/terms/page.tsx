@@ -5,6 +5,7 @@ export const generateMetadata = () =>
     "Website terms — Draft",
     "Draft terms for the NISIMIN corporate website. Pending founder and legal review.",
     "/terms/",
+    { index: false },
   );
 export default function Terms() {
   return <LegalPage kind="terms" />;

@@ -1,7 +1,13 @@
 import Image from "next/image";
 import Link from "next/link";
 
-export function Mark({ className = "" }: { className?: string }) {
+export function Mark({
+  className = "",
+  priority = false,
+}: {
+  className?: string;
+  priority?: boolean;
+}) {
   return (
     <Image
       className={className}
@@ -10,6 +16,8 @@ export function Mark({ className = "" }: { className?: string }) {
       height={239}
       alt=""
       aria-hidden="true"
+      loading={priority ? "eager" : "lazy"}
+      fetchPriority={priority ? "high" : undefined}
       unoptimized
     />
   );
